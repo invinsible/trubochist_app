@@ -4,11 +4,11 @@
           <label for="vulkan_rus">Нержавеющая сталь Вулкан (Россия)</label>
           <input type="radio" id="vulkan_rus" value="vulkan_rus" v-model="material" />
         </p>
-        <p v-if="show === 'ugol' || show === 'drova'">
+        <p v-if="fuel === 'ugol' || fuel === 'drova'">
           <label for="pemza_swe">Вулканическая пемза Heda, Keddy (Швеция)</label>
           <input type="radio" id="pemza_swe" value="pemza_swe" v-model="material" />
         </p>
-        <p v-if="show !== 'gaz' || show !== 'dizel'">
+        <p v-if="fuel !== 'gaz' || fuel !== 'dizel'">
           <label for="hart_ger">Керамическая Hart (Германия)</label>
           <input type="radio" id="hart_ger" value="hart_ger" v-model="material" />
         </p>
@@ -19,7 +19,7 @@
 export default {
     name: 'MaterialStep',
     props: {
-        show: String,
+        fuel: String,
     },
     data() {
         return {
@@ -27,7 +27,7 @@ export default {
         }        
     },
     watch: {
-        show() {
+        fuel() {
             this.material = null;
         },
         material() {

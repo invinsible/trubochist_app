@@ -25,6 +25,7 @@
       </div>
       
     </div>
+    <transition name="fade">
     <div v-show="step > 1" class="fuel">
       <h3>Выберите топливо</h3>
       <div class="grid">
@@ -47,22 +48,30 @@
       </div>
       
     </div>
+    </transition>
+    <transition name="fade">
     <div v-if="step > 2" class="material">
       <h3>Выберите материалы дымохода</h3>
-      <Material-step @choose="compareResult" :show="this.fuel"/>
+      <Material-step @choose="compareResult" :fuel="this.fuel"/>
     </div>
+    </transition>
+    <transition name="fade">
     <div v-if="step > 3" class="configuration">
       <h3>Выберите конфигурацию дымохода</h3>
+      <Config-step />
     </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import MaterialStep from './components/MaterialStep.vue';
+import ConfigStep from './components/ConfigStep.vue';
 export default {
   name: "App",
   components: {
     MaterialStep,
+    ConfigStep,
   },
   data() {
     return {
@@ -80,16 +89,24 @@ export default {
   watch: {    
     device() {
       this.step = 2;
+      this.fuel = null;
+      this.result.material = null;
     },
     fuel() {
-      this.step = 3;    
+      if(this.fuel) {
+        console.log('watch fuel');
+        this.step = 3;
+      }        
     },
   },
   computed: {
   
   },
   methods: {
-    compareResult(obj) { 
+    compareResult(obj) {
+      if(!this.result.material) {
+        this.step = 4;
+      }      
       this.result[obj.step] = obj.value;
     }
   }
@@ -111,5 +128,11 @@ export default {
 }
 .grid p {
   margin: 0 10px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>
