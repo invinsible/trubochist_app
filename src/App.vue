@@ -80,8 +80,6 @@ export default {
       fuel: null,
       
       result: {
-        device: null,
-        fuel: null,
         material: null
       },
     };
